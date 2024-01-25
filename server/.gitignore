@@ -1,0 +1,4 @@
+node_modules
+db_persistent_storage
+# Keep environment variables out of version control
+.env

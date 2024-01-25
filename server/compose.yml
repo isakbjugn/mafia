@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-mafia
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres_mafia
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_persistent_storage:/var/lib/postgresql/data

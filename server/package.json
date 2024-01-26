@@ -1,10 +1,12 @@
 {
   "name": "server",
   "version": "0.0.0",
+  "main": "build/app",
   "private": true,
   "scripts": {
-    "dev": "nodemon --config nodemon.json ./bin/www",
-    "start": "node ./bin/www"
+    "dev": "nodemon",
+    "start": "node build/server",
+    "build": "tsc"
   },
   "dependencies": {
     "@prisma/client": "5.8.1",
@@ -14,10 +16,19 @@
     "dotenv": "^16.4.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^4.17.21",
+    "@types/http-errors": "^2.0.4",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.11.6",
     "nodemon": "^3.0.3",
-    "prisma": "^5.8.1"
+    "prisma": "^5.8.1",
+    "typescript": "^5.3.3"
   }
 }

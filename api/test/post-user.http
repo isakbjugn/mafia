@@ -3,11 +3,12 @@
 # curl -X POST http://localhost:3000/trigger-event
 #     -H "Content-Type: application/json"
 #     -d '{"duelResult": "Isak vant"}'
-POST http://localhost:3000/duels
+POST http://localhost:3000/users/signup
 Content-Type: application/json
 
 {
-  "duelResult": "Lupus vant"
+  "name": "Steffen",
+  "email": "isak@gmail.com"
 }
 
 ###

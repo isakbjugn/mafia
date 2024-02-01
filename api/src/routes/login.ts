@@ -1,8 +1,16 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
-import { sendOtpEmail } from "../messages/email-service.ts";
+import { PrismaClient, type User } from '@prisma/client';
+import { sendOtpEmail } from '../messages/email-service';
+import passport from 'passport';
+import authenticate from '../authenticate';
 
 const router = express.Router();
+
+router.post('/', passport.authenticate('local', { session: false }), async (req, res) => {
+  const token = authenticate.getToken((req.user as User).id);
+  res.cookie('AccessToken', token, { httpOnly: true, secure: true, signed: true });
+  res.send();
+});
 
 router.post('/otp', async (req, res) => {
   const { email } = req.body;

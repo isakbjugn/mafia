@@ -16,4 +16,5 @@ model User {
   name      String  @unique
   admin     Boolean @default(false)
   password  String
+  targets   Int[]
 }

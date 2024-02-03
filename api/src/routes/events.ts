@@ -1,4 +1,6 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
+import authenticate from "../authenticate.ts";
+import cors from "../cors.ts";
 
 const router = express.Router();
 
@@ -16,26 +18,30 @@ const sseMiddleware = (_req: Request, res: Response, next: NextFunction) => {
 router.use('/', sseMiddleware);
 
 // SSE endpoint
-router.get('/', (req, res) => {
-  // Send a keep-alive message to prevent the connection from closing
-  const keepAlive = setInterval(() => {
-    res.write(': keep-alive\n\n');
-  }, 30000);
+router.route('/')
+  .options(cors.corsWithSpecifiedOriginAndCredentials, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, (req, res) => {
+    // Send a keep-alive message to prevent the connection from closing
+    const keepAlive = setInterval(() => {
+      res.write(': keep-alive\n\n');
+    }, 30000);
 
-  // Add this client to the clients array
-  const clientId = Date.now();
-  const newClient = {
-    id: clientId,
-    res
-  };
-  clients.push(newClient);
+    // Add this client to the clients array
+    const clientId = req.user!.id;
+    const newClient = {
+      id: clientId,
+      res
+    };
+    clients.push(newClient);
 
-  // Remove this client from the array when the connection is closed
-  req.on('close', () => {
-    clearInterval(keepAlive);
-    clients = clients.filter(client => client.id !== clientId);
+    // Remove this client from the array when the connection is closed
+    req.on('close', () => {
+      clearInterval(keepAlive);
+      clients = clients.filter(client => client.id !== clientId);
+    });
   });
-});
 
 type DuelData = {
   duelResult: string,
@@ -46,6 +52,12 @@ export const sendEventToAllClients = (data: DuelData) => {
   clients.forEach(client =>
     client.res.write(`data: ${JSON.stringify(data)}\n\n`)
   );
+}
+
+// Function to send an event to all connected clients
+export const sendEventToClient = (data: DuelData, clientId: number) => {
+  clients.find(client => client.id === clientId)
+    ?.res.write(`data: ${JSON.stringify(data)}\n\n`);
 }
 
 export default router;

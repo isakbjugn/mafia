@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
+    "typeRoots": ["./src/types"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",

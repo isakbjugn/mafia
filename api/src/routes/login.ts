@@ -1,16 +1,22 @@
 import express from 'express';
-import { PrismaClient, type User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { sendOtpEmail } from '../messages/email-service';
 import passport from 'passport';
 import authenticate from '../authenticate';
+import cors from "../cors.ts";
 
 const router = express.Router();
 
-router.post('/', passport.authenticate('local', { session: false }), async (req, res) => {
-  const token = authenticate.getToken((req.user as User).id);
-  res.cookie('AccessToken', token, { httpOnly: true, secure: true, signed: true });
-  res.send();
-});
+router.route('/')
+  .options(cors.corsWithCredentials, (req, res) => {
+    res.sendStatus(200);
+  })
+  .post(cors.corsWithCredentials, passport.authenticate('local', { session: false }), async (req, res) => {
+    const token = authenticate.getToken(req.user!.id);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.cookie('AccessToken', token, { httpOnly: true, signed: true, maxAge: 7200000, secure: true, sameSite: 'none', domain: 'localhost' });
+    res.status(204).end();
+  });
 
 router.post('/otp', async (req, res) => {
   const { email } = req.body;

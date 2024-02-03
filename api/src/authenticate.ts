@@ -2,14 +2,14 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import type { NextFunction, Request, Response } from 'express';
-import { PrismaClient, type User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
 const getToken = (id: string) => {
   return jwt.sign({ id: id }, process.env.PASSPORT_KEY as string, {
-    expiresIn: 3600
+    expiresIn: '1h'
   });
 };
 
@@ -72,11 +72,7 @@ passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
 
 const verifyUser = passport.authenticate('jwt', { session: false });
 
-interface UserRequest extends Request {
-  user?: User
-}
-
-const verifyAdmin = (req: UserRequest, res: Response, next: NextFunction) => {
+const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
   if (req.user && req.user.admin) {
     next();
   }

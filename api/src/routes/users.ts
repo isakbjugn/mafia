@@ -39,7 +39,7 @@ router.post('/signup', async (req, res) => {
       data: { email, name, password }
     })
     res.set('Content-Type', 'application/json');
-    res.cookie('session', { id: user.id }, { httpOnly: true, secure: true, sameSite: 'none' })
+    res.cookie('session', { id: user.id }, { httpOnly: true })
     res.json(user)
     res.end();
   } catch(err) {

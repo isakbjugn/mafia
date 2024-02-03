@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendEventToAllClients } from "./events.ts";
+import { sendEventToAllClients, sendEventToClient } from "./events.ts";
 
 const router = express.Router();
 
@@ -7,6 +7,12 @@ const router = express.Router();
 router.post('/', (req, res) => {
   const { duelResult } = req.body;
   sendEventToAllClients(duelResult);
+  res.status(204).end();
+});
+
+router.post('/', (req, res) => {
+  const { duelResult, clientId } = req.body;
+  sendEventToClient(duelResult, clientId);
   res.status(204).end();
 });
 

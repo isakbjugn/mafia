@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getUser } from "./api/api.ts";
 
 export type User = {
   id: number;
@@ -21,18 +22,3 @@ export const useUserStore = create<UserState>((set) => ({
   },
 }));
 
-const getUser = async (): Promise<User> => {
-  const res = await fetch('http://localhost:3000/auth', {
-    credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw Error(res.status.toString() + ' ' + res.statusText);
-  }
-  return await res.json();
-};

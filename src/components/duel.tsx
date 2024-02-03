@@ -24,6 +24,7 @@ function App() {
 
   return (
     <div>
+      <h2>Her vises duellresultater:</h2>
       {duelResult && <div>Last Duel Result: {duelResult}</div>}
       {/* Other components */}
     </div>

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getUser } from "./api/api.ts";
+import { getUser, logout } from "./api/api.ts";
 
 export type User = {
   id: number;
@@ -11,6 +11,7 @@ type UserState = {
   user: User | undefined,
   setUser: (userData: User) => void,
   fetchUser: () => Promise<void>,
+  logoutUser: () => void,
 };
 
 export const useUserStore = create<UserState>((set) => ({
@@ -20,5 +21,9 @@ export const useUserStore = create<UserState>((set) => ({
     const userData = await getUser();
     set({ user: userData });
   },
+  logoutUser: async () => {
+    await logout();
+    set({ user: undefined });
+  }
 }));
 

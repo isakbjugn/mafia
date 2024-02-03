@@ -34,3 +34,7 @@ export const getUser = async (): Promise<User> => {
   const response = await fetchWithCredentials('http://localhost:3000/auth', 'GET');
   return await response.json();
 };
+
+export const logout = async () => {
+  await fetchWithCredentials('http://localhost:3000/login/logout', 'POST');
+}

@@ -1,5 +1,6 @@
 import { useUserStore } from "../store.ts";
 import Duel from "./duel.tsx";
+import { Logout } from "./logout.tsx";
 
 export const Home = () => {
   const user = useUserStore(state => state.user);
@@ -14,6 +15,7 @@ export const Home = () => {
         </div>
       )}
       <Duel />
+      <Logout />
     </div>
   );
 };

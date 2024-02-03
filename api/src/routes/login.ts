@@ -39,4 +39,14 @@ router.post('/otp', async (req, res) => {
   }
 });
 
+router.route('/logout')
+  .options(cors.corsWithCredentials, (req, res) => {
+    res.sendStatus(200);
+  })
+  .post(cors.corsWithCredentials, (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.clearCookie('AccessToken');
+    res.status(204).end();
+  });
+
 export default router;

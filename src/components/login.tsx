@@ -13,10 +13,6 @@ export const Login = () => {
     fetchUser();
   };
 
-  const handleAlreadyLoggedIn = () => {
-    fetchUser();
-  };
-
   return (
     <div>
       <h2>Logg inn</h2>
@@ -25,9 +21,6 @@ export const Login = () => {
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Passord"/>
         <button type="submit">Logg inn</button>
       </form>
-      <button onClick={handleAlreadyLoggedIn}>
-        Jeg er allerede logget inn
-      </button>
     </div>
   );
 };

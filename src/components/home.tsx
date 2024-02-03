@@ -7,15 +7,10 @@ export const Home = () => {
 
   return (
     <div>
-      <h2>Velkommen, du er logget inn!</h2>
-      {user && (
-        <div>
-          <p>Username: {user.name}</p>
-          <p>Email: {user.email}</p>
-        </div>
-      )}
-      <Duel />
-      <Logout />
+      {user && (<h2>Velkommen, {user.name}!</h2>)}
+      <p>Du er nå logger inn.</p>
+      <Duel/>
+      <Logout/>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useUserStore } from "../store.ts";
-import Duel from "./duel.tsx";
+import { Duel } from "./duel.tsx";
 import { Logout } from "./logout.tsx";
 
 export const Home = () => {

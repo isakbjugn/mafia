@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 
-function App() {
+export const Duel = () => {
   const [duelResult, setDuelResult] = useState(null);
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3000/events');
+    const eventSource = new EventSource('http://localhost:3000/events', {
+      withCredentials: true,
+    });
 
     eventSource.onmessage = (event) => {
       console.log('event', event);
@@ -25,10 +27,8 @@ function App() {
   return (
     <div>
       <h2>Her vises duellresultater:</h2>
-      {duelResult && <div>Last Duel Result: {duelResult}</div>}
+      {duelResult && <div>Siste duell: {duelResult}</div>}
       {/* Other components */}
     </div>
   );
 }
-
-export default App;

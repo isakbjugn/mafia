@@ -1,2 +1,0 @@
-# curl -X GET http://localhost:3000/users
-OPTIONS http://localhost:3000/login

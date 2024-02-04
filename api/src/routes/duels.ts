@@ -1,10 +1,10 @@
 import express from 'express';
-import { sendEventToAllClients, sendEventToClient } from "./events.ts";
+import { sendEventToAllClients, sendEventToClient } from '../clients/clients';
 
 const router = express.Router();
 
 // Example of triggering an event (this could be in response to a duel)
-router.post('/', (req, res) => {
+router.post('/all', (req, res) => {
   const { duelResult } = req.body;
   sendEventToAllClients(duelResult);
   res.status(204).end();

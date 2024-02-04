@@ -18,7 +18,7 @@ router.use('/', sseMiddleware);
 // SSE endpoint
 router.route('/')
   .options(cors.corsWithSpecifiedOriginAndCredentials, (req, res) => {
-    res.sendStatus(200);
+    res.sendStatus(204);
   })
   .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, (req, res) => {
     // Send a keep-alive message to prevent the connection from closing
@@ -35,15 +35,15 @@ router.route('/')
     });
   })
   .post((req, res) => {
-    const { duelResult, clientId } = req.body;
-    sendEventToClient(duelResult, clientId);
+    const { message, clientId } = req.body;
+    sendEventToClient(message, clientId);
     res.status(204).end();
   });
 
 router.route('/all')
   .post((req, res) => {
-    const { duelResult } = req.body;
-    sendEventToAllClients(duelResult);
+    const { message } = req.body;
+    sendEventToAllClients(message);
     res.status(204).end();
   });
 

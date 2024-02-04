@@ -2,12 +2,12 @@
 
 # curl -X POST http://localhost:3000/trigger-event
 #     -H "Content-Type: application/json"
-#     -d '{"duelResult": "Isak vant"}'
+#     -d '{"message": "Isak vant"}'
 POST http://localhost:3000/events/all
 Content-Type: application/json
 
 {
-  "duelResult": "Lupus vant"
+  "message": "Lupus vant"
 }
 
 ###
@@ -16,12 +16,12 @@ Content-Type: application/json
 
 # curl -X POST http://localhost:3000/trigger-event
 #     -H "Content-Type: application/json"
-#     -d '{"duelResult": "Isak vant"}'
+#     -d '{"message": "Isak vant"}'
 POST http://localhost:3000/events
 Content-Type: application/json
 
 {
-  "duelResult": "Sirius vant",
+  "message": "Sirius vant",
   "clientId": 1
 }
 

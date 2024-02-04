@@ -9,6 +9,9 @@ declare global {
       name: PrismaDefinedUser['name'];
       email: PrismaDefinedUser['email'];
       admin: PrismaDefinedUser['admin'];
+      targets: PrismaDefinedUser['targets'];
+      lives: PrismaDefinedUser['lives'];
+      level: PrismaDefinedUser['level'];
     }
   }
   interface Array<T> {

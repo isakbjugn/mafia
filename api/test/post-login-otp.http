@@ -2,7 +2,7 @@
 
 # curl -X POST http://localhost:3000/trigger-event
 #     -H "Content-Type: application/json"
-#     -d '{"duelResult": "Isak vant"}'
+#     -d '{"message": "Isak vant"}'
 POST http://localhost:3000/login/otp
 Content-Type: application/json
 
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 # curl -X POST http://localhost:3000/trigger-event
 #     -H "Content-Type: application/json"
-#     -d '{"duelResult": "Isak vant"}'
+#     -d '{"message": "Isak vant"}'
 POST http://localhost:3000/login/otp
 Content-Type: application/json
 

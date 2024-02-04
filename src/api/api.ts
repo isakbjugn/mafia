@@ -35,6 +35,10 @@ export const getUser = async (): Promise<User> => {
   return await response.json();
 };
 
+export const duel = async (targetId: number) => {
+  await fetchWithCredentials('http://localhost:3000/duels', 'POST', { attemptedTargetId: targetId });
+}
+
 export const logout = async () => {
   await fetchWithCredentials('http://localhost:3000/login/logout', 'POST');
 }

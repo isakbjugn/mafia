@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.route('/')
   .options(cors.corsWithCredentials, (req, res) => {
-    res.sendStatus(200);
+    res.sendStatus(204);
   })
   .post(cors.corsWithCredentials, passport.authenticate('local', { session: false }), async (req, res) => {
     const token = authenticate.getToken(req.user!.id);

@@ -178,3 +178,6 @@ build
 # PostgreSQL volumes
 
 db_persistent_storage
+
+# Isak likes bun
+package-lock.json

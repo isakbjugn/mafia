@@ -46,28 +46,31 @@
   grid-template-areas:
   "mainTarget mainTarget"
   "secondary tertiary";
+}
 
-  .main-target {
-    grid-area: mainTarget;
-    img {
-      height: min(70vw, 300px);
-      width: min(70vw, 300px);
-    }
-  }
-  .secondary-target {
-    grid-area: secondary;
-    margin: 15px;
-    img {
-      height: 64px;
-      width: 64px;
-    }
-  }
-  .tertiary-target {
-    grid-area: tertiary;
-    margin: 15px;
-    img {
-      height: 64px;
-      width: 64px;
-    }
-  }
+.main-target {
+  grid-area: mainTarget;
+}
+
+.main-target img {
+  height: min(70vw, 300px);
+  width: min(70vw, 300px);
+}
+.secondary-target {
+  grid-area: secondary;
+  margin: 15px;
+}
+
+.secondary-target img {
+  height: 80px;
+  width: 80px;
+}
+.tertiary-target {
+  grid-area: tertiary;
+  margin: 15px;
+}
+
+.tertiary-target img {
+  height: 80px;
+  width: 80px;
 }

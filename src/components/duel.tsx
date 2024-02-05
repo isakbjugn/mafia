@@ -66,13 +66,12 @@ export const Duel = () => {
         <h2>Dine mål</h2>
         {duelTargets &&
           <div className={'duel-targets'}>
-            {duelTargets.map((target: Target, index: number): ReactNode => {
+            {duelTargets.map((target: Target, index: number) => {
               return (
                 <div className={deduceClassName(index)} key={index}>
                   <h2>Mål #{index + 1}</h2>
                   <img src={`${target.photoHref}`} alt={target.name} height={124} width={124}/>
                   <h3>{target.name}</h3>
-                  <button onClick={() => duel(target.id)}>Dueller {target.name}</button>
                 </div>)
             })}
           </div>

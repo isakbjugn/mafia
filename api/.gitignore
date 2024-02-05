@@ -181,3 +181,6 @@ db_persistent_storage
 
 # Isak likes bun
 package-lock.json
+
+# Skript for å legge til brukere
+/test/post-users-many.http

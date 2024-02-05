@@ -3,6 +3,31 @@ import { PrismaClient, type User } from "@prisma/client";
 export const prisma = new PrismaClient().$extends({
   model: {
     user: {
+      async signUp(email: string, name: string) {
+        const password = createPassword();
+        const createdUser = await prisma.user.create({
+          data: {
+            email,
+            name,
+            password,
+          },
+        });
+        return { name: createdUser.name, email: createdUser.email, lives: createdUser.lives, level: createdUser.level }
+      },
+
+      async signUpMany(users: { email: string, name: string }[]) {
+        const usersWithPasswords = users.map(user => {
+          return {
+            email: user.email,
+            name: user.name,
+            password: createPassword()
+          }
+        })
+        return prisma.user.createMany({
+          data: usersWithPasswords
+        });
+      },
+
       async getName(userId: number) {
         const user = await prisma.user.findFirst({
           where: {
@@ -95,6 +120,13 @@ export const prisma = new PrismaClient().$extends({
     }
   }
 })
+
+const createPassword = () => {
+  const passComponents = (process.env.PASS_COMPONENTS as string).split(', ');
+  const randomPassComponent = passComponents[Math.floor(Math.random() * passComponents.length)]
+  const randomInt = Math.floor(Math.random() * 100);
+  return `${randomPassComponent}-${randomInt}`
+}
 
 export const fetchUser = async (userId: number): User => {
   return prisma.user.findFirst({

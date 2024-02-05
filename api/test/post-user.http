@@ -10,6 +10,28 @@ Content-Type: application/json
   "name": "Steffen",
   "email": "isak@gmail.com"
 }
+###
+###
+
+POST http://localhost:3000/users/signup/many
+Content-Type: application/json
+
+{
+  "users": [
+    {
+      "name": "Steffen",
+      "email": "steffen@braten.no"
+    },
+    {
+      "name": "Kristoffer",
+      "email": "kristoffer@hakonsen.no"
+    },
+    {
+      "name": "Geir Olav",
+      "email": "geir@olav.no"
+    }
+  ]
+}
 
 ###
 

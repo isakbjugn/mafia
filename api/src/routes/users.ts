@@ -1,8 +1,7 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../db/repository.ts';
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
 router.get('/', async (_req, res) => {
   try {
@@ -16,33 +15,25 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-  const { email, name, password } = req.body;
+  const { name, email } = req.body;
   // check if either email or name already exists in database. If so, I want to return an error message.
 
-  if (await prisma.user.findFirst({
-    where: {
-      OR: [
-        { email: email },
-        { name: name }
-      ]
-    }
-  })) {
-    res.setHeader('Content-Type', 'application/json');
-    const err = new Error('Brukernavn eller epost er allerede i bruk.')
-    res.statusCode = 403;
-    res.json(err)
-    res.end();
-  }
-
   try {
-    const user = await prisma.user.create({
-      data: { email, name, password }
-    })
-    res.set('Content-Type', 'application/json');
-    res.cookie('session', { id: user.id }, { httpOnly: true })
-    res.json(user)
-    res.end();
-  } catch(err) {
+    const user = await prisma.user.signUp(email, name);
+    res.status(202).json(user).send();
+  } catch (err) {
+    console.log(err)
+    res.status(403).send("Kunne ikke opprette bruker.")
+  }
+});
+
+router.post('/signup/many', async (req, res) => {
+  const { users } = req.body;
+  try {
+    const createdUsers = await prisma.user.signUpMany(users);
+    const resultString = `Opprettet ${createdUsers.count} brukere`;
+    res.status(202).json({ message: resultString });
+  } catch (err) {
     console.log(err)
   }
 });

@@ -127,13 +127,14 @@ export const prisma = new PrismaClient().$extends({
         })
       },
       async assignTargets(tMap: TargetMap, assassins: number[]) {
+        console.log(tMap)
         await Promise.all(assassins.map(async (k: number) => {
           await prisma.user.update({
             where: {
               id: k
             },
             data: {
-              targets: tMap[k]
+              targets: [tMap[k][0], tMap[k][1], tMap[k][2]]
             }
           })
         }))

@@ -1,8 +1,12 @@
 import { duel } from "../api/api.ts";
 import { QrScanner } from '@yudiel/react-qr-scanner';
-import { useState } from "react";
+import { useRef, useState } from "react";
+import QRCode from "react-qr-code";
+import { useUserStore } from "../store.ts";
 
 export const Duel = () => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const user = useUserStore(state => state.user);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [error, setError] = useState<string | undefined>();
 
@@ -18,6 +22,7 @@ export const Duel = () => {
   return (
     <>
       <button onClick={() => setCameraOpen(!cameraOpen)}>📷 Dueller!</button>
+      {user && <button onClick={() => dialogRef.current?.showModal()}>🆚 QR-kode</button>}
       {cameraOpen &&
         <>
           <button onClick={() => setCameraOpen(false)}>⏹️</button>
@@ -28,6 +33,14 @@ export const Duel = () => {
         </>
       }
       {error && <p>⚠️ {error}</p>}
+      {user &&
+        <dialog ref={dialogRef}>
+          <QRCode value={user.id.toString()}/>
+          <form method="dialog">
+            <button autoFocus type="submit">❌ Lukk</button>
+          </form>
+        </dialog>
+      }
     </>
   )
 }

@@ -11,6 +11,7 @@ router.route('/')
   .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json({
+      id: req.user!.id,
       email: req.user!.email,
       name: req.user!.name,
       lives: req.user!.lives,

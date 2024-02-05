@@ -1,4 +1,5 @@
 import { PrismaClient, type User } from "@prisma/client";
+import type {TargetMap} from "../routes/targetAssigner.ts";
 
 export const prisma = new PrismaClient().$extends({
   model: {
@@ -116,6 +117,26 @@ export const prisma = new PrismaClient().$extends({
           }
         })
         return user.lives > 0
+      },
+
+      async allUserIds() {
+        return await prisma.user.findMany({
+          select: {
+            id: true
+          }
+        })
+      },
+      async assignTargets(tMap: TargetMap, assassins: number[]) {
+        await Promise.all(assassins.map(async (k: number) => {
+          await prisma.user.update({
+            where: {
+              id: k
+            },
+            data: {
+              targets: tMap[k]
+            }
+          })
+        }))
       }
     }
   }

@@ -4,14 +4,15 @@ import { sendEventToClient } from "../clients/clients.ts";
 export const notifyAboutVictory = async (winnerId: number, loserId: number) => {
   const loserName = await prisma.user.getName(loserId);
   const winner = await prisma.user.getUser(winnerId);
-  sendEventToClient({ message: `Du vant mot ${loserName}, og er nå level ${winner.level}!` }, winnerId);
+  const winnerMessage = `Du vant mot ${loserName}, og er nå level ${winner.level}!`
+  sendEventToClient({ message: winnerMessage }, winnerId);
 }
 
 export const notifyAboutDefeat = async (winnerId: number, loserId: number) => {
   const winnerName = await prisma.user.getName(winnerId);
   const loser = await prisma.user.getUser(loserId);
-  const message = getLoserMessage(winnerName, loser.lives)
-  sendEventToClient({ message: message }, loserId);
+  const loserMessage = getLoserMessage(winnerName, loser.lives)
+  sendEventToClient({ message: loserMessage }, loserId);
 }
 
 const getLoserMessage = (winnerName: string, loserLives: number) => {

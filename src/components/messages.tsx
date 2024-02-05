@@ -9,9 +9,8 @@ export const Messages = () => {
     });
 
     eventSource.onmessage = (event) => {
-      console.log('event', event);
-      const result = JSON.parse(event.data);
-      setMessage(result.message);
+      const eventData = JSON.parse(event.data);
+      setMessage(eventData.message);
     };
 
     eventSource.onerror = (error) => {

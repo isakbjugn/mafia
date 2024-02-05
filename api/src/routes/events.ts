@@ -36,14 +36,14 @@ router.route('/')
   })
   .post((req, res) => {
     const { message, clientId } = req.body;
-    sendEventToClient(message, clientId);
+    sendEventToClient({ message: message }, clientId);
     res.status(204).end();
   });
 
 router.route('/all')
   .post((req, res) => {
     const { message } = req.body;
-    sendEventToAllClients(message);
+    sendEventToAllClients({ message: message });
     res.status(204).end();
   });
 

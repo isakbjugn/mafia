@@ -1,7 +1,7 @@
 import { User } from "../store.ts";
 
 // Utility function for making API requests
-const fetchWithCredentials = async (url: string, method: string, body?: any): Promise<Response> => {
+const fetchWithCredentials = async <T>(url: string, method: string, body?: any): Promise<T> => {
   const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -19,11 +19,11 @@ const fetchWithCredentials = async (url: string, method: string, body?: any): Pr
 
   const response = await fetch(url, config);
 
-  if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`);
+  if (response.ok) {
+    return response.json();
   }
 
-  return response;
+  return Promise.reject({ message: response.statusText, status: response.status });
 };
 
 export const login = async (email: string, password: string) => {
@@ -31,12 +31,11 @@ export const login = async (email: string, password: string) => {
 };
 
 export const getUser = async (): Promise<User> => {
-  const response = await fetchWithCredentials('http://localhost:3000/auth', 'GET');
-  return await response.json();
+  return fetchWithCredentials<User>('http://localhost:3000/auth', 'GET');
 };
 
 export const duel = async (targetId: number) => {
-  await fetchWithCredentials('http://localhost:3000/duels', 'POST', { attemptedTargetId: targetId });
+  await fetchWithCredentials('http://localhost:3000/duels', 'POST', { attemptedTargetId: targetId })
 }
 
 export const logout = async () => {

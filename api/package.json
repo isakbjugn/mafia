@@ -4,10 +4,9 @@
   "entry": "src/index.ts",
   "type": "commonjs",
   "scripts": {
-    "install": "pnpm install && prisma generate",
     "dev": "tsx src/index.ts",
     "start": "node build/index.js",
-    "build": "tsc"
+    "build": "prisma generate && tsc"
   },
   "devDependencies": {
     "@types/bun": "latest",

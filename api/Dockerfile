@@ -4,6 +4,8 @@ FROM imbios/bun-node:latest
 # Set working directory
 WORKDIR /app
 
+COPY package.json .
+
 # Install dependencies
 RUN bun install
 

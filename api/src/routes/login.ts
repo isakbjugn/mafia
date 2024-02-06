@@ -7,6 +7,9 @@ import cors from "../cors";
 
 const router = express.Router();
 
+const COOKIE_DOMAIN = process.env.COOKIE_DOMAIN || 'localhost';
+const COOKIE_SAME_SITE = (process.env.COOKIE_SAME_SITE as 'strict' | 'lax' | 'none' ) || 'none';
+
 router.route('/')
   .options(cors.corsWithCredentials, (req, res) => {
     res.sendStatus(204);
@@ -14,7 +17,7 @@ router.route('/')
   .post(cors.corsWithCredentials, passport.authenticate('local', { session: false }), async (req, res) => {
     const token = authenticate.getToken(req.user!.id);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.cookie('AccessToken', token, { httpOnly: true, signed: true, maxAge: 7200000, secure: true, sameSite: 'none', domain: 'localhost' });
+    res.cookie('AccessToken', token, { httpOnly: true, signed: true, maxAge: 7200000, secure: true, sameSite: COOKIE_SAME_SITE, domain: COOKIE_DOMAIN });
     res.status(204).end();
   });
 

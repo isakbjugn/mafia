@@ -1,7 +1,9 @@
 import cors, { type CorsOptions } from 'cors';
 import type { Request } from 'express';
 
-const whiteList = ['http://localhost:5173'];
+const ACCEPTED_ORIGIN = process.env.ACCEPTED_ORIGIN || 'http://localhost:5173'
+
+const whiteList = [ACCEPTED_ORIGIN];
 
 const corsOptionsDelegate = (req: Request, callback: (err: Error | null, corsOptions?: CorsOptions) => void) => {
   let corsOptions;
@@ -30,7 +32,7 @@ export default {
   corsWithOptions: cors(corsOptionsDelegate),
   corsWithCredentials: cors(corsOptionsDelegateWithCredentials),
   corsWithSpecifiedOriginAndCredentials: cors(({
-    origin: 'http://localhost:5173',
+    origin: ACCEPTED_ORIGIN,
     credentials: true
   }))
 }

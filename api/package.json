@@ -4,6 +4,7 @@
   "entry": "src/index.ts",
   "type": "module",
   "scripts": {
+    "install": "bun install && prisma generate",
     "dev": "bun --watch src/index.ts",
     "start": "bun build src/index.ts --outfile=build/index.js --target=node && node build/index.js"
   },

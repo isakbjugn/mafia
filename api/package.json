@@ -19,6 +19,7 @@
     "@types/passport": "^1.0.16",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
+    "@types/react": "^18.2.55",
     "prisma": "^5.8.1"
   },
   "peerDependencies": {

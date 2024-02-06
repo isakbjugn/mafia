@@ -17,7 +17,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy built files from the builder stage to Nginx's default public directory
-COPY --from=builder /app/public /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Expose port 80 to the outside world
 EXPOSE 80

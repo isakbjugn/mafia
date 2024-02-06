@@ -9,14 +9,9 @@ router.route('/')
   .options(cors.corsWithSpecifiedOriginAndCredentials, (req, res) => {
     res.sendStatus(204);
   })
-  .post(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, async (req, res) => {
-    if(!req.user!.admin) {
-      res.status(403).json({message: "User is not an admin"}).end()
-    }
+  .post(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, authenticate.verifyAdmin, async (req, res) => {
     const allUsers: { id: number }[] = await prisma.user.allUserIds()
-    const extractedIds: number[] = allUsers.map((v) => {
-      return v.id // No typing for you
-    })
+    const extractedIds: number[] = allUsers.map(v => v.id)
     const assignedTargets = assignTargets(extractedIds)
     await prisma.user.assignTargets(assignedTargets, extractedIds)
     res.status(204).end()
@@ -24,7 +19,7 @@ router.route('/')
 
 
 export type TargetMap = {
-  [key: number]: number[]
+  [key: string]: number[]
 }
 
 export const assignTargets = (userIds: number[]) => {
@@ -38,16 +33,15 @@ export const assignTargets = (userIds: number[]) => {
       tmp2,
       shuffle(userIds)
     ]
-  let userMap: TargetMap | undefined;
-  while(!validateArray(userMap, userIds.length)) { // bruteforce all the way :D
+
+  let userMap: TargetMap = shuffleAndAssignTargets(loops, userIds)
+
+  while(!validateArray(userMap, userIds)) { // bruteforce all the way :D
     userMap = shuffleAndAssignTargets(loops, userIds)
   }
 
-
   return userMap
 }
-
-
 
 const shuffleAndAssignTargets = (loops: number[][], userIds: number[]) => {
   loops[1] = shuffle(userIds)
@@ -56,12 +50,12 @@ const shuffleAndAssignTargets = (loops: number[][], userIds: number[]) => {
   const userMap: TargetMap  = {}
 
   const assignTargetForAssassin = (loop: number[], loopNum: number, ind: number) => {
-    const curAssassin = loop[ind]
+    const curAssassin = loop[ind].toString()
     userMap[curAssassin][loopNum] = loop[(ind+1) % userIds.length]
   }
 
   userIds.map((id: number) => {
-    userMap[id] = [-1, -1, -1]
+    userMap[id.toString()] = [-1, -1, -1]
   })
   userIds.map((id: number, index: number) => {
     assignTargetForAssassin(loops[0], 0, index)
@@ -95,27 +89,16 @@ const shuffle = (array: number[]) => {
   return resultArray;
 }
 
-const swap = (array: number[], indexToPlace:number, element: number) => {
-  const tmpI = array.indexOf(element)
-  const tmp = array[tmpI]
-  array[tmpI] = array[indexToPlace]
-  array[indexToPlace] = tmp
-}
-
-const validateArray = (userMap: TargetMap | undefined, l: number) => {
-  if (!userMap) {
-    return false
-  }
-
-  let i = 1
-  while (i <= l) {
-    const curTargets = userMap[i]
-    if(curTargets[0] === curTargets[1] || curTargets[0] === curTargets[2] || curTargets[1] === curTargets[2]) { //sjekker om samme person har flere av samme mål
+const validateArray = (userMap: TargetMap | undefined, userIds: number[]) => {
+  userIds.forEach((id: number) => {
+    const key = id.toString()
+    const curTargets = userMap[key]
+    if (curTargets[0] === curTargets[1] || curTargets[0] === curTargets[2] || curTargets[1] === curTargets[2]) { //sjekker om samme person har flere av samme mål
       console.log("Samme person har flere av samme mål")
       return false
     }
-    i = i +1;
-  }
+  })
+
   return true
 }
 

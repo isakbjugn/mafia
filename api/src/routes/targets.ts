@@ -21,7 +21,7 @@ router.route('/')
       if (targetList && targetList.length != 0) {
         const targetsWithInfo = await Promise.all(targetList.map(async (targetId: number): Promise<Target> => {
           const targetUser = await fetchUser(targetId);
-          return { id: targetUser.id, name: targetUser.name, photoHref: "https://ca.slack-edge.com/EN04X3213-WNTCPN1L0-fe5e15863394-512"} // TODO
+          return { id: targetUser.id, name: targetUser.name, photoHref: targetUser.photoHref }
         }));
         res.status(200).json({ targets: targetsWithInfo }).end()
       } else {

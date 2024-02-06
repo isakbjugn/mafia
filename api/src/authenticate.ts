@@ -77,8 +77,7 @@ const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
     next();
   }
   else {
-    const err = new Error('You are not authorized to perform this operation!');
-    return next(err)
+    return res.status(403).send('Du er ikke autorisert for denne operasjonen!');
   }
 }
 

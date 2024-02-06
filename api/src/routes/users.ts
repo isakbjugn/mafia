@@ -15,11 +15,11 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, photoHref } = req.body;
   // check if either email or name already exists in database. If so, I want to return an error message.
 
   try {
-    const user = await prisma.user.signUp(email, name);
+    const user = await prisma.user.signUp(email, name, photoHref);
     res.status(202).json(user).send();
   } catch (err) {
     console.log(err)

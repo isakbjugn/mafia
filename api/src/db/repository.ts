@@ -1,27 +1,28 @@
 import { PrismaClient, type User } from "@prisma/client";
-import type { TargetMap } from "../routes/target-assigner";
+import type { TargetMap } from "../routes/initiate";
 
 export const prisma = new PrismaClient().$extends({
   model: {
     user: {
-      async signUp(email: string, name: string) {
-        const password = createPassword();
+      async signUp(email: string, name: string, photoHref: string) {
         const createdUser = await prisma.user.create({
           data: {
-            email,
-            name,
-            password,
+            email: email,
+            name: name,
+            password: createPassword(),
+            photoHref: photoHref ?? 'https://picsum.photos/512/512'
           },
         });
         return { name: createdUser.name, email: createdUser.email, lives: createdUser.lives, level: createdUser.level }
       },
 
-      async signUpMany(users: { email: string, name: string }[]) {
+      async signUpMany(users: { email: string, name: string, photoHref: string }[]) {
         const usersWithPasswords = users.map(user => {
           return {
             email: user.email,
             name: user.name,
-            password: createPassword()
+            password: createPassword(),
+            photoHref: user.photoHref ?? 'https://picsum.photos/512/512'
           }
         })
         return prisma.user.createMany({
@@ -130,7 +131,6 @@ export const prisma = new PrismaClient().$extends({
         })
       },
       async assignTargets(tMap: TargetMap, assassins: number[]) {
-        console.log(tMap)
         await Promise.all(assassins.map(async (k: number) => {
           await prisma.user.update({
             where: {
@@ -162,7 +162,8 @@ export const fetchUser = async (userId: number): Promise<Partial<User>> => {
       id: true,
       name: true,
       email: true,
-      targets: true
+      targets: true,
+      photoHref: true
     }
   });
 }

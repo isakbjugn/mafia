@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export const Messages = () => {
   const [message, setMessage] = useState(null);
 
-  const BACKEND_HOST = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/api'
+  const BACKEND_HOST = import.meta.env.DEV ? 'http://localhost:3000' : '/api'
 
   useEffect(() => {
     const eventSource = new EventSource(`${BACKEND_HOST}/events`, {

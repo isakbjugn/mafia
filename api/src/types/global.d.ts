@@ -12,6 +12,7 @@ declare global {
       targets: PrismaDefinedUser['targets'];
       lives: PrismaDefinedUser['lives'];
       level: PrismaDefinedUser['level'];
+      photoHref: PrismaDefinedUser['photoHref'];
     }
   }
   interface Array<T> {

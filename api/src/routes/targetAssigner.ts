@@ -58,10 +58,10 @@ const shuffle = (array: number[], lastInPrev: number, arrNum: number) => {
   let currentIndex = array.length,  randomIndex;
 
   //For å beholde loopen setter vi første til å være siste i forrige array
-  //swap(resultArray, 0, lastInPrev) Førte til loop valideringsloop :(
+  swap(resultArray, 0, lastInPrev)
 
   // While there remain elements to shuffle.
-  while (currentIndex > 0) {
+  while (currentIndex > 1) {
 
     // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
@@ -71,9 +71,9 @@ const shuffle = (array: number[], lastInPrev: number, arrNum: number) => {
     [resultArray[currentIndex], resultArray[randomIndex]] = [
       resultArray[randomIndex], resultArray[currentIndex]];
   }
-  /*if(arrNum === 2) { Førte til valideringsloop :(
+  if(arrNum === 2) {
     swap(resultArray, resultArray.length - 1, 2)
-  }*/
+  }
   return resultArray;
 }
 
@@ -99,6 +99,11 @@ const validateArray = (arr1: number[], arr2: number[], arr3: number[]) => {
     ) {                                                     // å verifisere val === i-1 er bare sanity check
       result = false
       console.log("Person har seg selv som mål")
+    }
+    if(i !== 0) {
+      if (arr2[arr2[i] - 1] === i + 1 || arr3[arr3[i] - 1] === i+1) { //sjekker etter umiddelbare loops
+        result = false
+      }
     }
   })
   return result

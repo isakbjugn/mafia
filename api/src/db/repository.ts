@@ -123,6 +123,9 @@ export const prisma = new PrismaClient().$extends({
         return await prisma.user.findMany({
           select: {
             id: true
+          },
+          orderBy: {
+            id: 'asc'
           }
         })
       },

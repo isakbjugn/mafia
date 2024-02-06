@@ -19,4 +19,5 @@ model User {
   targets   Int[]
   lives     Int     @default(3)
   level     Int     @default(1)
+  photoHref String?
 }

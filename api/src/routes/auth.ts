@@ -1,6 +1,6 @@
 import express from 'express';
-import authenticate from "../authenticate.ts";
-import cors from "../cors.ts";
+import authenticate from "../authenticate";
+import cors from "../cors";
 
 const router = express.Router();
 

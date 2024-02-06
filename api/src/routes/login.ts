@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { sendOtpEmail } from '../messages/email-service';
 import passport from 'passport';
 import authenticate from '../authenticate';
-import cors from "../cors.ts";
+import cors from "../cors";
 
 const router = express.Router();
 

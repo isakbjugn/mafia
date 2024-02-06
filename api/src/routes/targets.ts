@@ -1,7 +1,7 @@
 import express from 'express';
-import authenticate from "../authenticate.ts";
-import { fetchUser, prisma } from "../db/repository.ts";
-import cors from "../cors.ts";
+import authenticate from "../authenticate";
+import { fetchUser, prisma } from "../db/repository";
+import cors from "../cors";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ type Target = {
 router.route('/')
   .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, async (req, res) => {
     try {
-      const targetList = prisma.user.getTargets(req.user!.id)
+      const targetList = await prisma.user.getTargets(req.user!.id)
       if (targetList && targetList.length != 0) {
         const targetsWithInfo = targetList.map(async (targetId: number): Promise<Target> => {
           const targetUser = await fetchUser(targetId);

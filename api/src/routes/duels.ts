@@ -1,7 +1,7 @@
 import express from 'express';
-import cors from "../cors.ts";
-import authenticate from "../authenticate.ts";
-import { initiateDuel } from "../dueling/dueling.ts";
+import cors from "../cors";
+import authenticate from "../authenticate";
+import { initiateDuel } from "../dueling/dueling";
 
 const router = express.Router();
 

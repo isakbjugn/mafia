@@ -2,10 +2,12 @@
   "name": "api",
   "module": "src/index.ts",
   "entry": "src/index.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "start": "bun build src/index.ts --outfile=build/index.js --target=node && node build/index.js"
+    "install": "pnpm install && prisma generate",
+    "dev": "tsx src/index.ts",
+    "start": "node build/index.js",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -18,13 +20,13 @@
     "@types/passport": "^1.0.16",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
-    "prisma": "^5.8.1"
-  },
-  "peerDependencies": {
+    "nodemon": "^3.0.3",
+    "prisma": "^5.8.1",
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "@prisma/client": "latest",
+    "@react-email/html": "^0.0.7",
     "@react-email/render": "^0.0.12",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",

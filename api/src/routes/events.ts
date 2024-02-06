@@ -1,7 +1,7 @@
 import express, { type NextFunction, type Request, type Response } from 'express';
-import authenticate from "../authenticate.ts";
-import cors from "../cors.ts";
-import { addClient, removeClient, sendEventToAllClients, sendEventToClient } from "../clients/clients.ts";
+import authenticate from "../authenticate";
+import cors from "../cors";
+import { addClient, removeClient, sendEventToAllClients, sendEventToClient } from "../clients/clients";
 
 const router = express.Router();
 

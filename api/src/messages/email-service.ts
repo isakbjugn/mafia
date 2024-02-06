@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
-import { OneTimePasswordEmail } from "./one-time-password-email.tsx";
+import { OneTimePasswordEmail } from "./one-time-password-email";
 import type { User } from "@prisma/client";
 
 const config = {

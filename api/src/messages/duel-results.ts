@@ -1,5 +1,5 @@
-import { prisma } from "../db/repository.ts";
-import { sendEventToClient } from "../clients/clients.ts";
+import { prisma } from "../db/repository";
+import { sendEventToClient } from "../clients/clients";
 
 export const notifyAboutVictory = async (winnerId: number, loserId: number) => {
   const loserName = await prisma.user.getName(loserId);

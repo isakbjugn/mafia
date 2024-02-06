@@ -1,5 +1,5 @@
-import { notifyAboutDefeat, notifyAboutVictory } from "../messages/duel-results.ts";
-import { prisma } from "../db/repository.ts";
+import { notifyAboutDefeat, notifyAboutVictory } from "../messages/duel-results";
+import { prisma } from "../db/repository";
 
 export const initiateDuel = async (challengerId: number, targetId: number) => {
   const duelOutcome = resolveDuel(challengerId, targetId);

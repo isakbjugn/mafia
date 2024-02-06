@@ -128,7 +128,7 @@ const createPassword = () => {
   return `${randomPassComponent}-${randomInt}`
 }
 
-export const fetchUser = async (userId: number): User => {
+export const fetchUser = async (userId: number): Promise<Partial<User>> => {
   return prisma.user.findFirst({
     where: {
       id: userId

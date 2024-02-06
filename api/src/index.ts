@@ -8,7 +8,7 @@ import usersRouter from './routes/users';
 import eventsRouter from './routes/events';
 import duelsRouter from './routes/duels';
 import targetsRouter from './routes/targets'
-import targetAssignerRouter from './routes/targetAssigner.ts'
+import targetAssignerRouter from './routes/target-assigner'
 import passport from "passport";
 
 const app = express();

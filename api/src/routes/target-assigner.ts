@@ -1,8 +1,7 @@
 import express from "express";
-import cors from "../cors.ts";
-import authenticate from "../authenticate.ts";
-import { prisma } from "../db/repository.ts";
-
+import cors from "../cors";
+import authenticate from "../authenticate";
+import { prisma } from "../db/repository";
 
 const router = express.Router();
 
@@ -14,7 +13,7 @@ router.route('/')
     if(!req.user!.admin) {
       res.status(403).json({message: "User is not an admin"}).end()
     }
-    const allUsers: number[] = await prisma.user.allUserIds()
+    const allUsers: { id: number }[] = await prisma.user.allUserIds()
     const extractedIds: number[] = allUsers.map((v) => {
       return v.id // No typing for you
     })
@@ -110,7 +109,7 @@ const validateArray = (userMap: TargetMap | undefined, l: number) => {
 
   let i = 1
   while (i <= l) {
-    let curTargets = userMap[i]
+    const curTargets = userMap[i]
     if(curTargets[0] === curTargets[1] || curTargets[0] === curTargets[2] || curTargets[1] === curTargets[2]) { //sjekker om samme person har flere av samme mål
       console.log("Samme person har flere av samme mål")
       return false

@@ -1,5 +1,5 @@
 import { PrismaClient, type User } from "@prisma/client";
-import type {TargetMap} from "../routes/targetAssigner.ts";
+import type { TargetMap } from "../routes/target-assigner";
 
 export const prisma = new PrismaClient().$extends({
   model: {

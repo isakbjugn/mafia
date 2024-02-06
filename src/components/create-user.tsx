@@ -29,10 +29,7 @@ export const CreateUser = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    console.log('Oppretter bruker: ', name, email);
     const user = await registerUser(name, email);
-    console.log('Ferdig å opprette bruker: ', user);
 
     setUser(user);
     navigate('/hjem');

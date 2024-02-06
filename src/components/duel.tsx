@@ -1,9 +1,9 @@
 import { duel } from "../api/api.ts";
 import { QrScanner } from '@yudiel/react-qr-scanner';
-import { useRef, useState, useEffect } from "react";
-import QRCode from "react-qr-code";
-import { useUserStore } from "../store.ts";
-import { targets } from '../api/api.ts';
+import { useRef, useState, useEffect } from 'react';
+import QRCode from 'react-qr-code';
+import { useUserStore } from '../store.ts';
+import { getTargets } from '../api/api.ts';
 
 export type Target = {
   id: number
@@ -18,9 +18,13 @@ export const Duel = () => {
   const [error, setError] = useState<string | undefined>();
   const [duelTargets, setDuelTargets] = useState<Target[]>();
 
-  useEffect(async () => {
-    const result = await targets()
-    setDuelTargets(result)
+  const fetchAndSetTargets = async () => {
+    const result = await getTargets()
+    setDuelTargets(result.targets)
+  }
+
+  useEffect(() => {
+    fetchAndSetTargets()
   }, [])
 
   const deduceClassName = (i: number) => {

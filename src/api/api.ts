@@ -1,7 +1,7 @@
 import { Target, User } from '../store.ts';
 
 // Utility function for making API requests
-const BACKEND_HOST = `http://${window.location.host}:3000`
+const BACKEND_HOST = `http://${window.location.host}`
 
 const fetchWithoutCredentials = async <T>(url: string, method: string, body?: any): Promise<T> => {
   const headers = {
@@ -61,25 +61,25 @@ const fetchWithCredentials = async <T>(url: string, method: string, body?: any):
 };
 
 export const login = async (email: string, password: string) => {
-  await fetchWithCredentials('/login', 'POST', { email, password });
+  await fetchWithCredentials('/api/login', 'POST', { email, password });
 };
 
 export const getUser = async (): Promise<User> => {
-  return fetchWithCredentials<User>('/auth', 'GET');
+  return fetchWithCredentials<User>('/api/auth', 'GET');
 };
 
 export const duel = async (targetId: number) => {
-  await fetchWithCredentials('/duels', 'POST', { attemptedTargetId: targetId });
+  await fetchWithCredentials('/api/duels', 'POST', { attemptedTargetId: targetId });
 }
 
 export const logout = async () => {
-  await fetchWithCredentials('/login/logout', 'POST');
+  await fetchWithCredentials('/api/login/logout', 'POST');
 }
 
 export const getTargets = async (): Promise<{ targets: Target[] }> => {
-  return fetchWithCredentials<{ targets: Target[] }>('/targets', 'GET')
+  return fetchWithCredentials<{ targets: Target[] }>('/api/targets', 'GET')
 }
 
 export const resetPassword = async (email: string) => {
-  await fetchWithoutCredentials('/login/otp', 'POST', { email });
+  await fetchWithoutCredentials('/api/login/otp', 'POST', { email });
 }

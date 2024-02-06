@@ -8,6 +8,7 @@ import usersRouter from './routes/users';
 import eventsRouter from './routes/events';
 import duelsRouter from './routes/duels';
 import targetsRouter from './routes/targets'
+import targetAssignerRouter from './routes/target-assigner'
 import passport from "passport";
 
 const app = express();
@@ -30,6 +31,7 @@ app.use('/users', usersRouter);
 app.use('/events', eventsRouter);
 app.use('/duels', duelsRouter);
 app.use('/targets', targetsRouter)
+app.use('/assignTargets', targetAssignerRouter)
 
 app.listen(port, () =>
   console.log(`Server kjører på port ${port}`

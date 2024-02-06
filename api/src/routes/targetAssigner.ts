@@ -32,12 +32,12 @@ export const assignTargets = (userIds: number[]) => {
   const tmp = [...userIds]
   // Forskyver første løkke sånn at man ikke får seg selv som mål
   //tmp.push(tmp.shift()!)
-  const tmp2 = shuffle(userIds, tmp[tmp.length-1], 1)
+  const tmp2 = shuffle(userIds)
   const loops =
     [
       tmp,
       tmp2,
-      shuffle(userIds, tmp2[tmp2.length-1], 2)
+      shuffle(userIds)
     ]
   let userMap: TargetMap | undefined;
   while(!validateArray(userMap, userIds.length)) { // bruteforce all the way :D
@@ -48,26 +48,31 @@ export const assignTargets = (userIds: number[]) => {
   return userMap
 }
 
+
+
 const shuffleAndAssignTargets = (loops: number[][], userIds: number[]) => {
-  loops[1] = shuffle(userIds, loops[0][loops[0].length-1], 1)
-  loops[2] = shuffle(userIds, loops[1][loops[1].length-1], 2)
+  loops[1] = shuffle(userIds)
+  loops[2] = shuffle(userIds)
 
   const userMap: TargetMap  = {}
+
+  const assignTargetForAssassin = (loop: number[], loopNum: number, ind: number) => {
+    const curAssassin = loop[ind]
+    userMap[curAssassin][loopNum] = loop[(ind+1) % userIds.length]
+  }
+
   userIds.map((id: number) => {
     userMap[id] = [-1, -1, -1]
   })
   userIds.map((id: number, index: number) => {
-    let curAssassin = loops[0][index] // skal gjøre neistygt senere
-    userMap[curAssassin][0] = loops[0][(index+1) % userIds.length]
-    curAssassin = loops[1][index]
-    userMap[curAssassin][1] = loops[1][(index+1) % userIds.length]
-    curAssassin = loops[2][index]
-    userMap[curAssassin][2] = loops[2][(index+1) % userIds.length]
+    assignTargetForAssassin(loops[0], 0, index)
+    assignTargetForAssassin(loops[1], 1, index)
+    assignTargetForAssassin(loops[2], 2, index)
   })
   return userMap
 }
 
-const shuffle = (array: number[], lastInPrev: number, arrNum: number) => {
+const shuffle = (array: number[]) => {
   const resultArray: number[] = [...array]
   let currentIndex = array.length,  randomIndex;
 
@@ -113,19 +118,6 @@ const validateArray = (userMap: TargetMap | undefined, l: number) => {
     i = i +1;
   }
   return true
-  /*userMap.forEach((val, i: number) => {
-
-    if (val === i+1 || arr2[i] === i+1 || arr3[i] === i+1    //sjekker om de har fått seg selv som mål
-    ) {                                                     // å verifisere val === i-1 er bare sanity check
-      result = false
-      console.log("Person har seg selv som mål")
-    } Denne er umulig at skal forekomme nå
-    if(i !== 0) {
-      if (arr2[arr2[i] - 1] === i + 1 || arr3[arr3[i] - 1] === i+1) { //sjekker etter umiddelbare loops
-        result = false
-      }
-    }
-  }) */
 }
 
 export default router

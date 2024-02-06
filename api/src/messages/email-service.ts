@@ -1,6 +1,4 @@
 import nodemailer from "nodemailer";
-import { render } from "@react-email/render";
-import { OneTimePasswordEmail } from "./one-time-password-email";
 import type { User } from "@prisma/client";
 
 const config = {
@@ -17,12 +15,13 @@ const config = {
 const transporter = nodemailer.createTransport(config);
 
 export const sendOtpEmail = async (user: User) => {
-  const otpEmail = render(OneTimePasswordEmail({ name: user.name, otp: user.password}));
+  //const otpEmail = render(OneTimePasswordEmail({ name: user.name, otp: user.password}));
+
   const options = {
     from: process.env.GMAIL_APP_USER,
     to: user.email,
     subject: 'Engangspassord',
-    html: otpEmail,
+    html: `<html><h1>Hei, ${user.name}!</h1><p>Her er ditt engangspassord: ${user.password}</p><p>Det er viktig at du ikke deler dette passordet med noen.</p></html>`
   };
   await transporter.sendMail(options);
 };

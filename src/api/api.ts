@@ -1,7 +1,7 @@
 import { Target, User } from '../store.ts';
 
 // Utility function for making API requests
-const BACKEND_HOST = 'http://localhost:3000'
+const BACKEND_HOST = process.env.NOVE_ENV === 'development' ? 'http://localhost:3000' : '/api'
 
 const fetchWithoutCredentials = async <T>(url: string, method: string, body?: any): Promise<T> => {
   const headers = {

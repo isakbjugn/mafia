@@ -18,7 +18,11 @@ router.route('/')
     res.status(204).end();
   });
 
-router.post('/otp', async (req, res) => {
+router.route('/otp')
+  .options(cors.cors, (req, res) => {
+    res.sendStatus(204);
+  })
+  .post(cors.cors, async (req, res) => {
   const { email } = req.body;
   const prisma = new PrismaClient();
 

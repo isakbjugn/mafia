@@ -1,10 +1,12 @@
 import { create } from 'zustand';
-import { getUser, logout } from "./api/api.ts";
+import { getTargets, getUser, logout } from "./api/api.ts";
 
 export type User = {
   id: number;
   name: string;
   email: string;
+  lives: number;
+  level: number;
 }
 
 type UserState = {
@@ -27,3 +29,23 @@ export const useUserStore = create<UserState>((set) => ({
   }
 }));
 
+export type Target = {
+  id: number,
+  name: string,
+  photoHref: string
+}
+
+type TargetState = {
+  targets: Target[] | undefined,
+  setTargets: (targets: Target[]) => void,
+  fetchTargets: () => Promise<void>,
+};
+
+export const useTargetStore = create<TargetState>((set) => ({
+  targets: undefined,
+  setTargets: (targets: Target[]) => set({ targets }),
+  fetchTargets: async () => {
+    const targetData = await getTargets();
+    set({ targets: targetData.targets });
+  }
+}));

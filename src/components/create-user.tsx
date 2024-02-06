@@ -3,7 +3,7 @@ import { User, useUserStore } from "../store.ts";
 import { useNavigate } from "react-router-dom";
 
 const registerUser = async (name: string, email: string): Promise<User> => {
-  const res = await fetch('http://localhost:3000/users/signup', {
+  const res = await fetch(`http://${window.location.host}:3000`, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

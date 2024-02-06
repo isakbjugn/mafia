@@ -4,7 +4,7 @@ export const Messages = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:3000/events', {
+    const eventSource = new EventSource(`http://${window.location.host}:3000/events`, {
       withCredentials: true,
     });
 

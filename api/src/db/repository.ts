@@ -81,9 +81,13 @@ export const prisma = new PrismaClient().$extends({
         })
       },
 
-      async removeTarget(userId: number, targetId: number) {
+      async setTargetByIndex(userId: number, targetIndex: | 0 | 1 | 2, targetId: number) {
         const originalTargets: number[] = await prisma.user.getTargets(userId);
-        const updatedTargets = originalTargets.filter(id => id !== targetId);
+        const originalTargetAtIndex = originalTargets[targetIndex];
+
+        const updatedTargets = [...originalTargets];
+        updatedTargets[targetIndex] = targetId;
+
         await prisma.user.update({
           where: {
             id: userId
@@ -92,7 +96,41 @@ export const prisma = new PrismaClient().$extends({
             targets: updatedTargets
           }
         })
-        return prisma.user.getTargets(userId)
+        return originalTargetAtIndex
+      },
+
+      async removeTarget(userId: number, targetIndex: | 0 | 1 | 2) {
+        return prisma.user.setTargetByIndex(userId, targetIndex, -1)
+      },
+
+      async findUserWithTargetAtIndex(targetId: number, targetIndex: | 0 | 1 | 2) {
+        const users = await prisma.user.findMany();
+        return users.find(user => {
+          return user.targets[targetIndex] === targetId
+        })
+      },
+
+      async claimTarget(winnerId: number, loserId: number) {
+        const winnerTargets: number[] = await prisma.user.getTargets(winnerId);
+        if (winnerTargets.includes(loserId)) {
+          // Her har vi logikk for at utfordreren vant, og overtar taperens mål med samme indeks
+          const whichGameLoop = winnerTargets.indexOf(loserId) as 0 | 1 | 2;
+          const removedTarget = await prisma.user.removeTarget(loserId, whichGameLoop);
+
+          if (removedTarget === winnerId) {
+            // Vinneren har fått seg selv, og løkken er derfor ferdig
+            return prisma.user.removeTarget(winnerId, whichGameLoop)
+          } else {
+            return prisma.user.setTargetByIndex(winnerId, whichGameLoop, removedTarget)
+          }
+        } else {
+          const loserTargets = await prisma.user.getTargets(loserId);
+          const whichGameLoop = loserTargets.indexOf(winnerId) as 0 | 1 | 2;
+          // Her har vi logikk for at taperen vant, og den som har utfordreren som mål med samme indeks, må nå finne vinneren
+          const personWithChallengerAsTarget = await prisma.user.findUserWithTargetAtIndex(loserId, whichGameLoop)
+          const removedTarget = await prisma.user.removeTarget(loserId, whichGameLoop);
+          return prisma.user.setTargetByIndex(personWithChallengerAsTarget.id, whichGameLoop, removedTarget)
+        }
       },
 
       async loseLife(userId: number) {

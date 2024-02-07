@@ -19,7 +19,9 @@ router.route('/')
     try {
       const targetList = await prisma.user.getTargets(req.user!.id)
       if (targetList && targetList.length != 0) {
-        const targetsWithInfo = await Promise.all(targetList.map(async (targetId: number): Promise<Target> => {
+        const targetsWithInfo = await Promise.all(targetList
+          .filter((targetId: number) => targetId !== -1)
+          .map(async (targetId: number): Promise<Target> => {
           const targetUser = await fetchUser(targetId);
           return { id: targetUser.id, name: targetUser.name, photoHref: targetUser.photoHref }
         }));

@@ -14,8 +14,9 @@ export const Targets = () => {
 
   return (
     <>
+    {targets && targets.length !== 0 &&
+        <>
       <h2>Dine mål</h2>
-      {targets &&
         <div className={'duel-targets'}>
           {targets.map((target: Target, index: number) =>  (
               <div className={targetClassNames[index]} key={index}>
@@ -25,9 +26,16 @@ export const Targets = () => {
               </div>
           ))}
         </div>
+        </>
       }
       {!targets &&
         <div>Laster dine mål..</div>
+      }
+      {targets && targets.length === 0 &&
+          <>
+            <h2>🎉 🥂 🍾 Gratulerer! 🍾 🥂 🎉</h2>
+            <div>💪💪 Du er en overlever 💪💪</div>
+          </>
       }
     </>
   )

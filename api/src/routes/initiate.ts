@@ -23,7 +23,7 @@ export type TargetMap = {
 }
 
 export const assignTargets = (userIds: number[]) => {
-  const tmp = [...userIds]
+  const tmp = shuffle([...userIds])
   // Forskyver første løkke sånn at man ikke får seg selv som mål
   //tmp.push(tmp.shift()!)
   const tmp2 = shuffle(userIds)
@@ -44,6 +44,7 @@ export const assignTargets = (userIds: number[]) => {
 }
 
 const shuffleAndAssignTargets = (loops: number[][], userIds: number[]) => {
+  loops[0] = shuffle(userIds)
   loops[1] = shuffle(userIds)
   loops[2] = shuffle(userIds)
 
@@ -90,15 +91,17 @@ const shuffle = (array: number[]) => {
 }
 
 const validateArray = (userMap: TargetMap | undefined, userIds: number[]) => {
-  userIds.forEach((id: number) => {
-    const key = id.toString()
+  let i = 0;
+  while(i < userIds.length) {
+    const key = userIds[i].toString()
     const curTargets = userMap[key]
+
     if (curTargets[0] === curTargets[1] || curTargets[0] === curTargets[2] || curTargets[1] === curTargets[2]) { //sjekker om samme person har flere av samme mål
       console.log("Samme person har flere av samme mål")
       return false
     }
-  })
-
+    i = i + 1;
+  }
   return true
 }
 

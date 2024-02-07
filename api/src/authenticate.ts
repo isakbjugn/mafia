@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 const getToken = (id: number) => {
   return jwt.sign({ id: id }, process.env.PASSPORT_KEY as string, {
-    expiresIn: '1h'
+    expiresIn: '36h'
   });
 };
 

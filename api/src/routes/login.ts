@@ -17,7 +17,7 @@ router.route('/')
   .post(cors.corsWithCredentials, passport.authenticate('local', { session: false }), async (req, res) => {
     const token = authenticate.getToken(req.user!.id);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.cookie('AccessToken', token, { httpOnly: true, signed: true, maxAge: 7200000, secure: true, sameSite: COOKIE_SAME_SITE, domain: COOKIE_DOMAIN });
+    res.cookie('AccessToken', token, { httpOnly: true, signed: true, maxAge: 129600000, secure: true, sameSite: COOKIE_SAME_SITE, domain: COOKIE_DOMAIN });
     res.status(204).end();
   });
 

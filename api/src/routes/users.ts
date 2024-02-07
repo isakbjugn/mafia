@@ -1,18 +1,24 @@
 import express from 'express';
 import { prisma } from '../db/repository';
+import cors from "../cors";
+import authenticate from "../authenticate";
 
 const router = express.Router();
 
-router.get('/', async (_req, res) => {
-  try {
-    const users = await prisma.user.findMany()
-    res.set('Content-Type', 'application/json');
-    res.json(users)
-    res.end();
-  } catch(err) {
-    console.log(err)
-  }
-});
+router.route('/')
+  .options(cors.corsWithSpecifiedOriginAndCredentials, (req, res) => {
+    res.sendStatus(204);
+  })
+  .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, authenticate.verifyAdmin, async (_req, res) => {
+    try {
+      const users = await prisma.user.findMany()
+      res.set('Content-Type', 'application/json');
+      res.json(users)
+      res.end();
+    } catch(err) {
+      console.log(err)
+    }
+  });
 
 router.post('/signup', async (req, res) => {
   const { name, email, photoHref } = req.body;

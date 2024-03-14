@@ -3,6 +3,7 @@ import { Login } from "./components/login.tsx";
 import { useUserStore } from "./store.ts";
 import { Home } from "./components/home.tsx";
 import { useEffect } from "react";
+import { publishSubscribe } from './sandkasse/ablyTest.ts'
 
 function App() {
   const user = useUserStore(state => state.user);
@@ -15,6 +16,7 @@ function App() {
   return (
     <>
       <h1>🕵🏼‍ Mafia</h1>
+      <button onClick={publishSubscribe}>Testknappen</button>
       {user ? <Home /> : <Login />}
     </>
   )

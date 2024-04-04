@@ -19,15 +19,13 @@ router.route('/')
       clientId: "TODO"//req.user.id.toString()
     }
 
-    const callbackFunction = (tokenRequest: Types.TokenRequest | Types.ErrorInfo) => {
-      if(!tokenRequest) {
-        console.log("Could not generate tokenRequest: ", tokenRequest)
+    const callbackFunction = (err: Types.ErrorInfo, tokenRequest: Types.TokenRequest) => {
+      if(err) {
+        console.error("Could not generate tokenRequest for client: ", err.message)
         res.status(500).end()
+        return
       }
-      if(tokenRequest && tokenRequest instanceof Types.ErrorInfo) {
-        console.error("Could not generate tokenRequest for client: ", tokenRequest.message)
-        res.status(500).end()
-      }
+
       res.status(200).json(JSON.stringify(tokenRequest)).end()
     }
 

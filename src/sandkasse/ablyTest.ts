@@ -6,15 +6,14 @@ export async function publishSubscribe() {
         authUrl: "http://localhost:3000/messageAuth",
     })
 
-    ably.connection.on("failed", (error) => {
-        console.log("Failed to connect to Ably: ", error)
-    })
-    ably.connection.once("connected", () => {
-        console.log("Connected to Ably!")
-    })
+    ably.connection.on((stateChange) => {
+        console.log('New connection state is ' + stateChange.current);
+        console.log('Reason ', stateChange.reason)
+    });
 
     // Create a channel called 'get-started' and register a listener to subscribe to all messages with the name 'first'
     const channel = ably.channels.get("get-started")
+
     await channel.subscribe("first", (message) => {
         console.log("Message received: " + message.data)
     });
@@ -30,4 +29,6 @@ export async function publishSubscribe() {
         });
     }, 5000);
 }
+
+
 

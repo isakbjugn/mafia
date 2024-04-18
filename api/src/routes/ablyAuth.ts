@@ -26,7 +26,7 @@ router.route('/')
         return
       }
 
-      res.status(200).json(JSON.stringify(tokenRequest)).end()
+      res.status(200).json(tokenRequest).end()
     }
 
     ablyRestClient.auth.createTokenRequest(tokenParams, callbackFunction)

@@ -9,36 +9,22 @@
     "build": "prisma generate && tsc"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
-    "@types/nodemailer": "^6.4.14",
     "@types/passport": "^1.0.16",
-    "@types/passport-jwt": "^4.0.1",
-    "@types/passport-local": "^1.0.38",
-    "@types/react": "^18.2.55",
     "prisma": "^5.8.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@prisma/client": "latest",
-    "@react-email/html": "^0.0.7",
-    "@react-email/render": "^0.0.12",
-    "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.6",
+    "@prisma/client": "^5.9.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.9.8",
+    "paseto": "^3.1.4",
     "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0",
-    "react-email": "^2.0.0"
+    "passport-custom": "^1.1.1"
   }
 }

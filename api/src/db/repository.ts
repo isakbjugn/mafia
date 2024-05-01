@@ -9,7 +9,6 @@ export const prisma = new PrismaClient().$extends({
           data: {
             email: email,
             name: name,
-            password: createPassword(),
             photoHref: photoHref ?? 'https://picsum.photos/512/512'
           },
         });
@@ -21,7 +20,6 @@ export const prisma = new PrismaClient().$extends({
           return {
             email: user.email,
             name: user.name,
-            password: createPassword(),
             photoHref: user.photoHref ?? 'https://picsum.photos/512/512'
           }
         })
@@ -183,13 +181,6 @@ export const prisma = new PrismaClient().$extends({
     }
   }
 })
-
-const createPassword = () => {
-  const passComponents = (process.env.PASS_COMPONENTS as string).split(', ');
-  const randomPassComponent = passComponents[Math.floor(Math.random() * passComponents.length)]
-  const randomInt = Math.floor(Math.random() * 100);
-  return `${randomPassComponent}-${randomInt}`
-}
 
 export const fetchUser = async (userId: string): Promise<Partial<User>> => {
   return prisma.user.findFirst({

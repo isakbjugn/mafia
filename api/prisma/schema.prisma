@@ -15,7 +15,6 @@ model User {
   email     String  @unique
   name      String  @unique
   admin     Boolean @default(false)
-  password  String
   targets   String[]
   lives     Int     @default(3)
   level     Int     @default(1)

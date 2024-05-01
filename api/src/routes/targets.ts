@@ -6,7 +6,7 @@ import cors from "../cors";
 const router = express.Router();
 
 type Target = {
-  id: number,
+  id: string,
   name: string,
   photoHref: string
 }
@@ -20,8 +20,8 @@ router.route('/')
       const targetList = await prisma.user.getTargets(req.user!.id)
       if (targetList && targetList.length != 0) {
         const targetsWithInfo = await Promise.all(targetList
-          .filter((targetId: number) => targetId !== -1)
-          .map(async (targetId: number): Promise<Target> => {
+          .filter((targetId: string) => targetId !== '')
+          .map(async (targetId: string): Promise<Target> => {
           const targetUser = await fetchUser(targetId);
           return { id: targetUser.id, name: targetUser.name, photoHref: targetUser.photoHref }
         }));

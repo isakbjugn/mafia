@@ -1,14 +1,14 @@
 import { prisma } from "../db/repository";
 import { sendEventToClient } from "../clients/clients";
 
-export const notifyAboutVictory = async (winnerId: number, loserId: number) => {
+export const notifyAboutVictory = async (winnerId: string, loserId: string) => {
   const loserName = await prisma.user.getName(loserId);
   const winner = await prisma.user.getUser(winnerId);
   const winnerMessage = `Du vant mot ${loserName}, og er nå level ${winner.level}!`
   sendEventToClient({ message: winnerMessage }, winnerId);
 }
 
-export const notifyAboutDefeat = async (winnerId: number, loserId: number) => {
+export const notifyAboutDefeat = async (winnerId: string, loserId: string) => {
   const winnerName = await prisma.user.getName(winnerId);
   const loser = await prisma.user.getUser(loserId);
   const loserMessage = getLoserMessage(winnerName, loser.lives)

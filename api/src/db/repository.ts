@@ -30,7 +30,7 @@ export const prisma = new PrismaClient().$extends({
         });
       },
 
-      async getName(userId: number) {
+      async getName(userId: string) {
         const user = await prisma.user.findFirst({
           where: {
             id: userId
@@ -42,7 +42,7 @@ export const prisma = new PrismaClient().$extends({
         return user.name
       },
 
-      async getUser(userId: number) {
+      async getUser(userId: string) {
         return prisma.user.findFirst({
           where: {
             id: userId
@@ -56,8 +56,8 @@ export const prisma = new PrismaClient().$extends({
         })
       },
 
-      async getTargets(userId: number) {
-        const userWithTargets: { targets: number[] } = await prisma.user.findFirst({
+      async getTargets(userId: string) {
+        const userWithTargets: { targets: string[] } = await prisma.user.findFirst({
           where: {
             id: userId
           },
@@ -68,7 +68,7 @@ export const prisma = new PrismaClient().$extends({
         return userWithTargets.targets
       },
 
-      async levelUp(userId: number) {
+      async levelUp(userId: string) {
         await prisma.user.update({
           where: {
             id: userId
@@ -81,8 +81,8 @@ export const prisma = new PrismaClient().$extends({
         })
       },
 
-      async setTargetByIndex(userId: number, targetIndex: | 0 | 1 | 2, targetId: number) {
-        const originalTargets: number[] = await prisma.user.getTargets(userId);
+      async setTargetByIndex(userId: string, targetIndex: | 0 | 1 | 2, targetId: string) {
+        const originalTargets: string[] = await prisma.user.getTargets(userId);
         const originalTargetAtIndex = originalTargets[targetIndex];
 
         const updatedTargets = [...originalTargets];
@@ -99,19 +99,19 @@ export const prisma = new PrismaClient().$extends({
         return originalTargetAtIndex
       },
 
-      async removeTarget(userId: number, targetIndex: | 0 | 1 | 2) {
-        return prisma.user.setTargetByIndex(userId, targetIndex, -1)
+      async removeTarget(userId: string, targetIndex: | 0 | 1 | 2) {
+        return prisma.user.setTargetByIndex(userId, targetIndex, '')
       },
 
-      async findUserWithTargetAtIndex(targetId: number, targetIndex: | 0 | 1 | 2) {
+      async findUserWithTargetAtIndex(targetId: string, targetIndex: | 0 | 1 | 2) {
         const users = await prisma.user.findMany();
         return users.find(user => {
           return user.targets[targetIndex] === targetId
         })
       },
 
-      async claimTarget(winnerId: number, loserId: number) {
-        const winnerTargets: number[] = await prisma.user.getTargets(winnerId);
+      async claimTarget(winnerId: string, loserId: string) {
+        const winnerTargets: string[] = await prisma.user.getTargets(winnerId);
         if (winnerTargets.includes(loserId)) {
           // Her har vi logikk for at utfordreren vant, og overtar taperens mål med samme indeks
           const whichGameLoop = winnerTargets.indexOf(loserId) as 0 | 1 | 2;
@@ -133,7 +133,7 @@ export const prisma = new PrismaClient().$extends({
         }
       },
 
-      async loseLife(userId: number) {
+      async loseLife(userId: string) {
         await prisma.user.update({
           where: {
             id: userId
@@ -146,7 +146,7 @@ export const prisma = new PrismaClient().$extends({
         })
       },
 
-      async isAlive(userId: number) {
+      async isAlive(userId: string) {
         const user = await prisma.user.findFirst({
           where: {
             id: userId
@@ -168,8 +168,8 @@ export const prisma = new PrismaClient().$extends({
           }
         })
       },
-      async assignTargets(tMap: TargetMap, assassins: number[]) {
-        await Promise.all(assassins.map(async (k: number) => {
+      async assignTargets(tMap: TargetMap, assassins: string[]) {
+        await Promise.all(assassins.map(async (k: string) => {
           await prisma.user.update({
             where: {
               id: k
@@ -191,7 +191,7 @@ const createPassword = () => {
   return `${randomPassComponent}-${randomInt}`
 }
 
-export const fetchUser = async (userId: number): Promise<Partial<User>> => {
+export const fetchUser = async (userId: string): Promise<Partial<User>> => {
   return prisma.user.findFirst({
     where: {
       id: userId

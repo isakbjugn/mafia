@@ -11,12 +11,12 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
+  id        String  @id @default(uuid())
   email     String  @unique
   name      String  @unique
   admin     Boolean @default(false)
   password  String
-  targets   Int[]
+  targets   String[]
   lives     Int     @default(3)
   level     Int     @default(1)
   photoHref String?

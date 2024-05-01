@@ -1,7 +1,7 @@
 import { notifyAboutDefeat, notifyAboutVictory } from "../messages/duel-results";
 import { prisma } from "../db/repository";
 
-export const initiateDuel = async (challengerId: number, targetId: number) => {
+export const initiateDuel = async (challengerId: string, targetId: string) => {
   const challenger = await prisma.user.getUser(challengerId);
   const target = await prisma.user.getUser(targetId);
   const duelOutcome = resolveDuel(challengerId, challenger.level, targetId, target.level);
@@ -15,11 +15,11 @@ export const initiateDuel = async (challengerId: number, targetId: number) => {
 }
 
 type DuelOutcome = {
-  winner: number;
-  loser: number;
+  winner: string;
+  loser: string;
 }
 
-const resolveDuel = (challengerId: number, challengerLevel: number, targetId: number, targetLevel: number): DuelOutcome => {
+const resolveDuel = (challengerId: string, challengerLevel: number, targetId: string, targetLevel: number): DuelOutcome => {
   // Calculate level difference
   const levelDifference = challengerLevel - targetLevel;
 

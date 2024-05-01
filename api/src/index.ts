@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 app.get("/", (req, res) => {
-  res.send("Hello via Bun!");
+  res.send("Velkommen til Hodejeger-API-et!");
 });
 
 app.use('/login', loginRouter);

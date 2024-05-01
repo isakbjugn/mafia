@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-const getToken = (id: number) => {
+const getToken = (id: string) => {
   return jwt.sign({ id: id }, process.env.PASSPORT_KEY as string, {
     expiresIn: '36h'
   });

@@ -1,12 +1,13 @@
 import express from "express";
 import logger from 'morgan';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
 
 import usersRouter from './routes/users';
 import eventsRouter from './routes/events';
 import duelsRouter from './routes/duels';
 import targetsRouter from './routes/targets'
 import initiateRouter from './routes/initiate'
-import passport from "passport";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cookieParser());
 app.use(passport.initialize());
 
 app.get("/", (req, res) => {

@@ -9,12 +9,25 @@ router.route('/')
   .options(cors.corsWithSpecifiedOriginAndCredentials, (req, res) => {
     res.sendStatus(204);
   })
+  .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, async (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({
+      id: req.user!.id,
+      name: req.user!.name,
+      lives: req.user!.lives,
+      level: req.user!.level
+    }).end();
+  });
+
+router.route('/all')
+  .options(cors.corsWithSpecifiedOriginAndCredentials, (req, res) => {
+    res.sendStatus(204);
+  })
   .get(cors.corsWithSpecifiedOriginAndCredentials, authenticate.verifyUser, authenticate.verifyAdmin, async (_req, res) => {
     try {
       const users = await prisma.user.findMany()
-      res.set('Content-Type', 'application/json');
-      res.json(users)
-      res.end();
+      res.header('Content-Type', 'application/json');
+      res.json(users);
     } catch(err) {
       console.log(err)
     }
